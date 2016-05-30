@@ -2,20 +2,13 @@ package mode_error;
 
 import mode_error.ModeErrorUtil;
 
-import java.util.ArrayList;
-import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Robot;
 import java.awt.Toolkit;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
@@ -30,8 +23,6 @@ import org.jnativehook.SwingDispatchService;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 
-import com.sun.jna.Platform;
-
 public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyListener {
 	
 	/** The Constant serialVersionUID. */
@@ -39,8 +30,6 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 	
 	/** The text area to display event info. */
 	private static JTextArea txtEventInfo;
-
-	private Robot robot;
 	
 	public ModeErrorAlarm() {
 		setTitle("ModeError Alarm");
@@ -53,13 +42,6 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		
 		setLocation((screenSize.width - frameSize.width), 0);
-		
-		try {
-			robot = new Robot();
-		} catch (AWTException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		txtEventInfo = new JTextArea();
 		txtEventInfo.setEditable(false);
@@ -100,41 +82,6 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 		catch (BadLocationException ex) {
 			txtEventInfo.setCaretPosition(txtEventInfo.getDocument().getLength());
 		}
-	}
-	
-	public void robotInput(ArrayList<String> arrayString) {
-		
-		int restoreSize = arrayString.size();
-		int deleteSize = arrayString.size() - 1;
-		String nowLang = ModeErrorUtil.nowlanguage();
-		
-		if (nowLang.equals("ko")) {
-			deleteSize = ModeErrorUtil.eTok(ModeErrorUtil.joinArrayList(arrayString).toLowerCase()).length() - 1;
-		}
-		
-		robot.keyPress(KeyEvent.KEY_LOCATION_RIGHT);
-		robot.keyPress(KeyEvent.VK_META);
-		robot.keyPress(KeyEvent.VK_SPACE);
-		robot.keyRelease(KeyEvent.VK_META);
-		robot.keyRelease(KeyEvent.KEY_LOCATION_RIGHT);
-		robot.keyRelease(KeyEvent.VK_SPACE);
-		
-		while(true) {
-			if(!nowLang.equals(ModeErrorUtil.nowlanguage())) {
-				break;
-			}
-		}
-		
-		for (int i = 0; i < deleteSize; i++) {
-			robot.keyPress(KeyEvent.VK_BACK_SPACE);
-			robot.keyRelease(KeyEvent.VK_BACK_SPACE);
-		}
-		
-		for (int i = 0; i < restoreSize; i++) {
-			robot.keyPress(ModeErrorUtil.getKeyCode(arrayString.get(i)));
-			robot.keyRelease(ModeErrorUtil.getKeyCode(arrayString.get(i)));
-		}
-
 	}
 
 	@Override
