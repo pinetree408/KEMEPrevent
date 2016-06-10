@@ -1,9 +1,13 @@
 package mode_error;
 
 import mode_error.ModeErrorUtil;
+import mode_error.ModeErrorUtil.Logger;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -30,6 +34,9 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 	
 	/** The text area to display event info. */
 	private static JTextArea txtEventInfo;
+	
+	/** buffer writer to save log */
+	private static Logger logger;
 	
 	public ModeErrorAlarm() {
 		setTitle("ModeError Alarm");
@@ -93,7 +100,15 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 		txtEventInfo.append("-" + ModeErrorUtil.nowTopProcess());
 		txtEventInfo.append("\n");
 		txtEventInfo.append("*********\n");
-		
+		String log =
+				"----------------------\r\n" +
+				
+				realAlphabet(e.paramString()) +
+				"-" + ModeErrorUtil.nowlanguage() + 
+				"-" + ModeErrorUtil.nowTopProcess() +
+				"\r\n" +
+				"*********\r\n";
+		logger.log(log);
 	}
 	
 	@Override
@@ -111,15 +126,17 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 	@Override
 	public void windowClosing(WindowEvent e) {
 		System.runFinalization();
-		System.exit(0);	
+		System.exit(0);
 	}
 
 	/**
 	 * The ModeErrorAlarm project entry point.
 	 *
 	 * @param args unused.
+	 * @throws IOException 
 	 */
 	public static void main(String[] args) {
+		logger = new Logger("out.txt");
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				new ModeErrorAlarm();

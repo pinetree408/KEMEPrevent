@@ -5,6 +5,8 @@ import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.awt.im.InputContext;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -489,6 +491,31 @@ public class ModeErrorUtil {
 
 		int result = javaKeyCodes.get(finalNativeKey);
 	    return result;
+	}
+	
+	public static class Logger {
+		
+		private File logFile;
+		
+		public Logger() {
+			
+		}
+		
+		public Logger(String fileName) {
+			logFile = new File(fileName);
+		}
+		
+		public void log(String s) {
+			
+			try {
+				FileWriter fw = new FileWriter(this.logFile, true);
+				fw.write(s);
+				fw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
