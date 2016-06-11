@@ -10,8 +10,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -505,15 +508,26 @@ public class ModeErrorUtil {
 			logFile = new File(fileName);
 		}
 		
-		public void log(String s) {
+		public void log(NativeKeyEvent e) {
 			
+			Date d = new Date(e.getWhen());
+			SimpleDateFormat dateformat = new SimpleDateFormat("EEE MMM d HH:mm:ss:SSS z yyyy", Locale.KOREA);
+			String date = dateformat.format(d);
+			
+			String logString =
+				date +
+				"-" + nowlanguage() + 
+				"-" + nowTopProcess() +
+				"-" + NativeKeyEvent.getKeyText(e.getKeyCode()) +
+				"\r\n";			
+
 			try {
 				FileWriter fw = new FileWriter(this.logFile, true);
-				fw.write(s);
+				fw.write(logString);
 				fw.close();
-			} catch (IOException e) {
+			} catch (IOException exception) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				exception.printStackTrace();
 			}
 		}
 	}

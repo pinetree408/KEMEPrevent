@@ -66,17 +66,8 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 		
 	}
 	
-	private String realAlphabet(String paramString) {
-		String input = paramString;
-		String[] array = input.split(",");
-		String type = array[2].replace("정의되지 않음", "NULL");
-		String[] result = type.split("=");
-		
-		return result[1];
-	}
-	
-	private void displayEventInfo(final NativeInputEvent e) {
-		txtEventInfo.append(realAlphabet(e.paramString()));
+	private void displayEventInfo(final NativeKeyEvent e) {
+		txtEventInfo.append(NativeKeyEvent.getKeyText(e.getKeyCode()));
 
 		try {
 			//Clean up the history to reduce memory consumption.
@@ -100,15 +91,7 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 		txtEventInfo.append("-" + ModeErrorUtil.nowTopProcess());
 		txtEventInfo.append("\n");
 		txtEventInfo.append("*********\n");
-		String log =
-				"----------------------\r\n" +
-				
-				realAlphabet(e.paramString()) +
-				"-" + ModeErrorUtil.nowlanguage() + 
-				"-" + ModeErrorUtil.nowTopProcess() +
-				"\r\n" +
-				"*********\r\n";
-		logger.log(log);
+		logger.log(e);
 	}
 	
 	@Override
