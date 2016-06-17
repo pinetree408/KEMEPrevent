@@ -5,8 +5,6 @@ import mode_error.ModeErrorUtil.Logger;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -22,7 +20,6 @@ import javax.swing.text.BadLocationException;
 
 import org.jnativehook.GlobalScreen;
 import org.jnativehook.NativeHookException;
-import org.jnativehook.NativeInputEvent;
 import org.jnativehook.SwingDispatchService;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
