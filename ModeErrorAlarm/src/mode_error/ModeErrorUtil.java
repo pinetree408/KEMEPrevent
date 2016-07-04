@@ -64,19 +64,6 @@ public class ModeErrorUtil {
 			e.printStackTrace();
 		}
 		
-		robot.keyPress(KeyEvent.KEY_LOCATION_RIGHT);
-		robot.keyPress(KeyEvent.VK_META);
-		robot.keyPress(KeyEvent.VK_SPACE);
-		robot.keyRelease(KeyEvent.VK_META);
-		robot.keyRelease(KeyEvent.KEY_LOCATION_RIGHT);
-		robot.keyRelease(KeyEvent.VK_SPACE);
-		
-		while(true) {
-			if(!nowLang.equals(ModeErrorUtil.nowlanguage())) {
-				break;
-			}
-		}
-		
 		for (int i = 0; i < deleteSize; i++) {
 			robot.keyPress(KeyEvent.VK_BACK_SPACE);
 			robot.keyRelease(KeyEvent.VK_BACK_SPACE);
@@ -198,13 +185,7 @@ public class ModeErrorUtil {
 		Matcher m = p.matcher(english);
 		StringBuffer sb = new StringBuffer();
 		
-		int initial = english.length();
-		
-		System.out.println("start:" + initial);
-		
 		while (m.find()) {
-			
-			initial = initial - m.group().length();
 			
 			int charCode = enH.indexOf((m.group().charAt(0))) * 588;
 			
@@ -223,8 +204,6 @@ public class ModeErrorUtil {
 		    m.appendReplacement(sb, Character.toString((char) charCode));
 		}
 		m.appendTail(sb);
-
-		System.out.println("final:" + initial);
 		
 		return sb.toString();
 	}
@@ -232,10 +211,6 @@ public class ModeErrorUtil {
 	public static boolean isCompleteKorean(ArrayList<Integer> arrayString) {
 		
 	    String english = ModeErrorUtil.joinArrayList(arrayString).replace(".", "");
-	    
-	    if (ModeErrorUtil.nowlanguage() == "ko") {
-	    	return false;
-	    }
 		
 		String enH = "rRseEfaqQtTdwWczxvg";
 		String regH = "[" + enH + "]";
@@ -304,11 +279,11 @@ public class ModeErrorUtil {
 		
 		int initialLength = english.length();
 		int finalLength = 0;
-		
+
 		while (m.find()) {
 			
 			finalLength = finalLength + m.group().length();
-			
+
 			int charCode = enH.indexOf((m.group().charAt(0))) * 588;
 			
 			if (m.group().length() > 2) {
@@ -441,8 +416,7 @@ public class ModeErrorUtil {
 		    
 		    processName = new String(filename);
 		    
-		} else 
-		if(Platform.isMac()) {
+		} else if(Platform.isMac()) {
 			String script="tell application \"System Events\"\n" +
 					"\tname of application processes whose frontmost is true\n" +
 					"end";
@@ -516,10 +490,10 @@ public class ModeErrorUtil {
 			
 			String logString =
 				date +
+				"-" + NativeKeyEvent.getKeyText(e.getKeyCode()) +
 				"-" + nowlanguage() + 
 				"-" + nowTopProcess() +
-				"-" + NativeKeyEvent.getKeyText(e.getKeyCode()) +
-				"\r\n";			
+				"\r\n";
 
 			try {
 				FileWriter fw = new FileWriter(this.logFile, true);
