@@ -412,9 +412,13 @@ public class ModeErrorUtil {
 		    WinNT.HANDLE processHandle=kernel32.OpenProcess(PROCESS_VM_READ | PROCESS_QUERY_INFORMATION, true, pid.getValue());
 		    
 		    byte[] filename = new byte[512];
-		    psapi.GetModuleBaseNameW(processHandle.getPointer(), Pointer.NULL, filename, filename.length);
 		    
-		    processName = new String(filename);
+		    try {
+		    	psapi.GetModuleBaseNameW(processHandle.getPointer(), Pointer.NULL, filename, filename.length);
+		    	processName = new String(filename);
+		    } catch(NullPointerException e) {
+		    	return processName;
+		    }
 		    
 		} else if(Platform.isMac()) {
 			String script="tell application \"System Events\"\n" +

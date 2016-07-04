@@ -3,12 +3,15 @@ package mode_error;
 import mode_error.ModeErrorUtil;
 import mode_error.ModeErrorUtil.Logger;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Robot;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
@@ -122,6 +125,33 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 				new ModeErrorAlarm();
 			}
 		});
+		
+		String topProcess = null;
+		
+		while (true) {
+			if (ModeErrorUtil.nowTopProcess() != null && !ModeErrorUtil.nowTopProcess().equals(topProcess)) {
+				topProcess = ModeErrorUtil.nowTopProcess();
+				
+				Robot robot = null;
+				
+				try {
+					robot = new Robot();
+				} catch (AWTException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				if (ModeErrorUtil.nowlanguage().equals("ko")) {
+					robot.keyPress(KeyEvent.VK_G);
+					robot.keyPress(KeyEvent.VK_K);
+					robot.keyPress(KeyEvent.VK_S);
+				} else {
+					robot.keyPress(KeyEvent.VK_E);
+					robot.keyPress(KeyEvent.VK_N);
+				}
+				
+			}
+		}
 	}
 
 	@Override
