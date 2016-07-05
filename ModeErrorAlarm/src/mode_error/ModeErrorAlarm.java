@@ -129,9 +129,10 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 		String topProcess = null;
 		
 		while (true) {
-			if (ModeErrorUtil.nowTopProcess() != null && !ModeErrorUtil.nowTopProcess().equals(topProcess)) {
+			
+			if (!ModeErrorUtil.nowTopProcess().equals(topProcess)) {
 				topProcess = ModeErrorUtil.nowTopProcess();
-				
+
 				Robot robot = null;
 				
 				try {

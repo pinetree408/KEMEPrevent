@@ -401,24 +401,24 @@ public class ModeErrorUtil {
 		
 		if (Platform.isWindows()) {
 			
-			final int PROCESS_VM_READ=0x0010;
-		    final int PROCESS_QUERY_INFORMATION=0x0400;
+			final int PROCESS_VM_READ = 0x0010;
+		    final int PROCESS_QUERY_INFORMATION = 0x0400;
 		    final User32 user32 = User32.INSTANCE;
-		    final Kernel32 kernel32=Kernel32.INSTANCE;
+		    final Kernel32 kernel32 = Kernel32.INSTANCE;
 		    final Psapi psapi = Psapi.INSTANCE;
-		    WinDef.HWND windowHandle=user32.GetForegroundWindow();
-		    IntByReference pid= new IntByReference();
+		    WinDef.HWND windowHandle = user32.GetForegroundWindow();
+		    IntByReference pid = new IntByReference();
 		    user32.GetWindowThreadProcessId(windowHandle, pid);
-		    WinNT.HANDLE processHandle=kernel32.OpenProcess(PROCESS_VM_READ | PROCESS_QUERY_INFORMATION, true, pid.getValue());
+		    WinNT.HANDLE processHandle = kernel32.OpenProcess(PROCESS_VM_READ | PROCESS_QUERY_INFORMATION, true, pid.getValue());
 		    
 		    byte[] filename = new byte[512];
 		    
 		    try {
 		    	psapi.GetModuleBaseNameW(processHandle.getPointer(), Pointer.NULL, filename, filename.length);
-		    	processName = new String(filename);
 		    } catch(NullPointerException e) {
-		    	return processName;
+		    	e.getStackTrace();
 		    }
+		    processName = new String(filename);
 		    
 		} else if(Platform.isMac()) {
 			String script="tell application \"System Events\"\n" +
