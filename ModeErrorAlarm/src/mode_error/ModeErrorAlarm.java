@@ -144,11 +144,16 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 				
 				if (ModeErrorUtil.nowlanguage().equals("ko")) {
 					robot.keyPress(KeyEvent.VK_G);
+					robot.keyRelease(KeyEvent.VK_G);
 					robot.keyPress(KeyEvent.VK_K);
+					robot.keyRelease(KeyEvent.VK_K);
 					robot.keyPress(KeyEvent.VK_S);
+					robot.keyRelease(KeyEvent.VK_S);
 				} else {
 					robot.keyPress(KeyEvent.VK_E);
+					robot.keyRelease(KeyEvent.VK_E);
 					robot.keyPress(KeyEvent.VK_N);
+					robot.keyRelease(KeyEvent.VK_N);
 				}
 				
 			}
