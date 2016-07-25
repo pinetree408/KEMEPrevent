@@ -119,7 +119,7 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 	 * @throws IOException 
 	 */
 	public static void main(String[] args) {
-		logger = new Logger("out.txt");
+		logger = new Logger("result.txt");
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				new ModeErrorAlarm();
