@@ -38,11 +38,14 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 	/** buffer writer to save log */
 	private static Logger logger;
 	
+	/** mode error alarm global status */
+	private static String state;
+	
 	public ModeErrorAlarm() {
 		setTitle("ModeError Alarm");
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		setSize(200, 100);
+		setSize(1000, 1000);
 		addWindowListener(this);
 
 		Dimension frameSize = getSize();
@@ -56,6 +59,8 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 		txtEventInfo.setForeground(new Color(0x00, 0x00, 0x00));
 		txtEventInfo.setText("");
 
+		state = "checking";
+		
 		JScrollPane scrollPane = new JScrollPane(txtEventInfo);
 		scrollPane.setPreferredSize(new Dimension(375, 125));
 		add(scrollPane, BorderLayout.CENTER);
@@ -85,13 +90,74 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 	@Override
 	public void nativeKeyPressed(NativeKeyEvent e) {
 		
-		txtEventInfo.append("----------------------\n");
-		displayEventInfo(e);
-		txtEventInfo.append("-" + ModeErrorUtil.nowlanguage());
-		txtEventInfo.append("-" + ModeErrorUtil.nowTopProcess());
-		txtEventInfo.append("\n");
-		txtEventInfo.append("*********\n");
-		logger.log(e);
+		//txtEventInfo.append("----------------------\n");
+		//#displayEventInfo(e);
+		//txtEventInfo.append("-" + ModeErrorUtil.nowlanguage());
+		//txtEventInfo.append("-" + ModeErrorUtil.nowTopProcess());
+		//txtEventInfo.append("\n");
+		//txtEventInfo.append("*********\n");
+		//logger.log(e);
+
+		txtEventInfo.append(state + "\n");
+		
+		if (state.equals("prevent")) {
+			if (ModeErrorUtil.nowlanguage().equals("ko")) {
+				try {
+					if (ModeErrorUtil.getKeyCode(e.getKeyCode()) == KeyEvent.VK_S) {
+						state = "pre-checking";
+					}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			} else {
+				try {
+					if (ModeErrorUtil.getKeyCode(e.getKeyCode()) == KeyEvent.VK_N) {
+						state = "pre-checking";
+					}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		} else if (state.equals("pre-checking")) {
+			
+			Robot robot = null;
+
+			try {
+				robot = new Robot();
+			} catch (AWTException ev) {
+				// TODO Auto-generated catch block
+				ev.printStackTrace();
+			}
+			if (ModeErrorUtil.nowlanguage().equals("ko")) {
+				robot.keyPress(KeyEvent.VK_BACK_SPACE);
+				robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+				robot.keyPress(KeyEvent.VK_BACK_SPACE);
+				robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+				robot.keyPress(KeyEvent.VK_BACK_SPACE);
+				robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+				robot.keyPress(KeyEvent.VK_BACK_SPACE);
+				robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+			} else {
+				robot.keyPress(KeyEvent.VK_BACK_SPACE);
+				robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+				robot.keyPress(KeyEvent.VK_BACK_SPACE);
+				robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+				robot.keyPress(KeyEvent.VK_BACK_SPACE);
+				robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+			}
+			
+			try {
+				robot.keyPress(ModeErrorUtil.getKeyCode(e.getKeyCode()));
+				robot.keyRelease(ModeErrorUtil.getKeyCode(e.getKeyCode()));
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			state = "checking";
+		}
 	}
 	
 	@Override
@@ -133,6 +199,8 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 			if (!ModeErrorUtil.nowTopProcess().equals(topProcess)) {
 				topProcess = ModeErrorUtil.nowTopProcess();
 
+				state = "prevent";
+				
 				Robot robot = null;
 				
 				try {
