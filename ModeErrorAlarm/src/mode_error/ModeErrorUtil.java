@@ -86,7 +86,7 @@ public class ModeErrorUtil {
 	    if (ModeErrorUtil.nowlanguage() == "ko") {
 	    	dict = "/dict/wordsEn.txt";
 	    } else {
-	    	dict = "/dict/wordsKo.txt";
+	    	dict = "/dicengkst/wordsKo.txt";
 	    	compared = ModeErrorUtil.eTok(compared);
 	    }
 	    
@@ -418,7 +418,16 @@ public class ModeErrorUtil {
 		    } catch(NullPointerException e) {
 		    	e.getStackTrace();
 		    }
-		    processName = new String(filename);
+		    
+		    String temp = "";
+		    
+		    for (int i = 0; i < 32; i++) {
+		    	if (filename[i] != 0x00) {
+		            temp += (char)filename[i];
+		    	} 
+		    }
+		    
+		    processName = temp;
 		    
 		} else if(Platform.isMac()) {
 			String script="tell application \"System Events\"\n" +
@@ -438,7 +447,7 @@ public class ModeErrorUtil {
 			processName = stockList.toString();
 
 		}
-		
+        
 		return processName;
 	}
 	

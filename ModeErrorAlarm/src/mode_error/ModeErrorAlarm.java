@@ -6,6 +6,7 @@ import mode_error.ModeErrorUtil.Logger;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.im.InputContext;
 import java.io.IOException;
 import java.awt.AWTException;
 import java.awt.BorderLayout;
@@ -192,17 +193,20 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 			}
 		});
 		
-		String topProcess = null;
+		String topProcess = "initial";
 		
 		while (true) {
 			
 			String nowTopProcess = ModeErrorUtil.nowTopProcess();
-			if (!nowTopProcess.equals(null) && !nowTopProcess.equals(topProcess)) {
+
+			if (!nowTopProcess.equals("") && !topProcess.equals("") && !nowTopProcess.equals(topProcess)) {
+				
 				topProcess = nowTopProcess;
+				
 				state = "prevent";
-				
+
 				Robot robot = null;
-				
+
 				try {
 					robot = new Robot();
 				} catch (AWTException e) {
@@ -223,6 +227,7 @@ public class ModeErrorAlarm extends JFrame implements WindowListener, NativeKeyL
 					robot.keyPress(KeyEvent.VK_N);
 					robot.keyRelease(KeyEvent.VK_N);
 				}
+				
 			}
 		}
 	}
