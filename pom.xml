@@ -4,9 +4,30 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>com.pinetree408.keme</groupId>
+        <artifactId>combine</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../combine/pom.xml</relativePath>
+    </parent>
+
     <groupId>com.pinetree408.keme</groupId>
     <artifactId>prevent</artifactId>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.5.0</version>
+                <configuration>
+                    <mainClass>com.pinetree408.keme.prevent.Prevent</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -20,6 +41,12 @@
             <artifactId>jnativehook</artifactId>
             <version>2.0.3</version>
         </dependency>
+        <dependency>
+            <groupId>com.pinetree408.keme</groupId>
+            <artifactId>util</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
-
 </project>

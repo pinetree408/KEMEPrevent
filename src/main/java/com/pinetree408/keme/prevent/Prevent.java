@@ -16,6 +16,8 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 
+import com.pinetree408.keme.util.Util;
+
 public class Prevent implements NativeKeyListener {
 
     static Robot robot;
@@ -24,7 +26,7 @@ public class Prevent implements NativeKeyListener {
     static String nowTopProcess;
     static String nowLanguage;
 
-    public App() {
+    public Prevent() {
 
         // Initialize Robot for prevent word injection
         try {
