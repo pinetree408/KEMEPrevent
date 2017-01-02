@@ -25,6 +25,8 @@ public class Prevent implements NativeKeyListener {
     static String prevTopProcess;
     static String nowTopProcess;
     static String nowLanguage;
+    private static String state;
+
 
     public Prevent() {
 
@@ -41,18 +43,66 @@ public class Prevent implements NativeKeyListener {
         prevTopProcess = "initial";
         nowTopProcess = "initial";
         nowLanguage = "initial";
+        state = "checking";
 
     }
 
     public void nativeKeyPressed(NativeKeyEvent e) {
 
-        //System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+        System.out.println("Key Pressed: " + NativeKeyEvent.getKeyText(e.getKeyCode()));
 
-        if (e.getKeyCode() == NativeKeyEvent.VC_ESCAPE) {
+        if (state.equals("prevent")) {
+            if (util.nowLanguage().equals("ko")) {
+                try {
+                    if (util.getJavaKeyCode(e) == KeyEvent.VK_S) {
+                        state = "pre-checking";
+                    }
+                } catch (Exception e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            } else {
+                try {
+                    int keyCode = util.getJavaKeyCode(e);
+                    if (keyCode == KeyEvent.VK_N) {
+                        state = "pre-checking";
+                    }
+                } catch (Exception e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            }
+        } else if (state.equals("pre-checking")) {
 
-            System.out.println("test");
+            if (util.nowLanguage().equals("ko")) {
+                robot.keyPress(KeyEvent.VK_BACK_SPACE);
+                robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+                robot.keyPress(KeyEvent.VK_BACK_SPACE);
+                robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+                robot.keyPress(KeyEvent.VK_BACK_SPACE);
+                robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+                robot.keyPress(KeyEvent.VK_BACK_SPACE);
+                robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+            } else {
+                robot.keyPress(KeyEvent.VK_BACK_SPACE);
+                robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+                robot.keyPress(KeyEvent.VK_BACK_SPACE);
+                robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+                robot.keyPress(KeyEvent.VK_BACK_SPACE);
+                robot.keyRelease(KeyEvent.VK_BACK_SPACE);
+            }
 
+            try {
+                robot.keyPress(util.getJavaKeyCode(e));
+                robot.keyRelease(util.getJavaKeyCode(e));
+            } catch (Exception e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
+            state = "checking";
         }
+
     }
 
     public static void main(String[] args) {
@@ -82,6 +132,8 @@ public class Prevent implements NativeKeyListener {
             }
 
             if (!prevTopProcess.equals(nowTopProcess)) {
+
+                state = "prevent";
 
                 prevTopProcess = util.nowTopProcess();
 
