@@ -6,9 +6,9 @@
 
     <parent>
         <groupId>com.pinetree408.keme</groupId>
-        <artifactId>combine</artifactId>
+        <artifactId>combine-prevent</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <relativePath>../combine/pom.xml</relativePath>
+        <relativePath>../combineprevent/pom.xml</relativePath>
     </parent>
 
     <groupId>com.pinetree408.keme</groupId>
