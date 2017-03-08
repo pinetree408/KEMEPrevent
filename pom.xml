@@ -23,7 +23,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.5.0</version>
                 <configuration>
-                    <mainClass>com.pinetree408.keme.prevent.Prevent</mainClass>
+                    <mainClass>com.pinetree408.keme.prevent.KEMEPrevent</mainClass>
                 </configuration>
             </plugin>
         </plugins>
