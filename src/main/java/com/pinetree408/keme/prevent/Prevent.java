@@ -3,7 +3,6 @@ package com.pinetree408.keme.prevent;
 /** Created by user on 2016-12-28. */
 import org.jnativehook.keyboard.NativeKeyEvent;
 
-import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 
@@ -78,6 +77,13 @@ public class Prevent {
 
   public String getPreventState() {
     return String.valueOf(preventState);
+  }
+
+  public boolean isStateChecking() {
+    if (preventState == checking) {
+      return true;
+    }
+    return false;
   }
 
   public void injection(String nowLanguage, Robot robot) {
